@@ -5,6 +5,6 @@ export interface ContextValue {
   req: NextApiRequest;
   res: NextApiResponse;
   user?: any;
-  token: string | null;
+  token?: string;
   dataSources: ReturnType<typeof generateDatasources>;
 }
