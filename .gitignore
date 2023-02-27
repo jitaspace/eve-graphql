@@ -127,3 +127,4 @@ fabric.properties
 #generated/
 .env
 nextjs-routes.d.ts
+/generated/
