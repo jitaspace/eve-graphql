@@ -1,0 +1,776 @@
+
+enum EndpointStatus {
+green
+yellow
+red
+}
+
+type Position {
+x: Float!
+y: Float!
+z: Float!
+}
+
+type Endpoint {
+endpoint: ID!
+method: String!
+route: String!
+status: EndpointStatus!
+tags: [String]!
+}
+
+type Region {
+id: ID!
+name: String!
+description: String
+constellations: [Constellation!]!
+# TODO: publicContracts: [Contract!]!
+}
+
+type Constellation {
+id: ID!
+name: String!
+position: Position!
+region: Region!
+solarSystems: [SolarSystem!]!
+}
+
+type SolarSystem {
+id: ID!
+name: String!
+constellation: Constellation!
+npcKills: Int! # NPC ships killed in the last hour
+planets: [Planet!]!
+podKills: Int! # Pods killed in the last hour
+position: Position!
+securityClass: String
+securityStatus: Float!
+shipJumps: Int! # ship jumps in the last hour
+shipKills: Int! # Player ships killed in the last hour
+star: Star
+stargates: [Stargate!]!
+stations: [Station!]!
+}
+
+type Planet {
+id: ID!
+moons: [Moon!]!
+asteroidBelts: [AsteroidBelt!]!
+name: String!
+position: Position!
+solarSystem: SolarSystem!
+type: Type!
+}
+
+type Star {
+id: ID!
+age: String!
+luminosity: Float!
+name: String!
+radius: Int!
+solarSystem: SolarSystem!
+spectralClass: String!
+temperature: Int!
+type: Type!
+}
+
+type Stargate {
+id: ID!
+name: String!
+destination: Stargate!
+position: Position!
+solarSystem: SolarSystem!
+type: Type!
+}
+
+type Station {
+id: ID!
+name: String!
+position: Position!
+solarSystem: SolarSystem # Doomheim returns invalid solar system
+type: Type!
+maxDockableShipVolume: Float!
+officeRentalCost: Float!
+reprocessingEfficiency: Float!
+reprocessingStationsTake: Float!
+services: [String!]!
+owner: Corporation!
+race: Race!
+}
+
+type Type {
+id: ID!
+capacity: Float
+description: String!
+attributes: [AppliedAttribute!]!
+effects: [AppliedEffect!]!
+graphic: Graphic
+group: Group!
+icon: Icon
+images: [ImageVariation!]!
+marketGroup: MarketGroup
+mass: Float
+name: String!
+packagedVolume: Float
+portionSize: Int
+published: Boolean!
+radius: Float
+volume: Float
+}
+
+type AppliedAttribute {
+attribute: Attribute!
+value: Float!
+}
+
+type AppliedEffect {
+effect: Effect!
+isDefault: Boolean!
+}
+
+type Moon {
+id: ID!
+name: String!
+position: Position!
+solarSystem: SolarSystem!
+}
+
+type AsteroidBelt {
+id: ID!
+name: String!
+position: Position!
+solarSystem: SolarSystem!
+}
+
+type Corporation {
+id: ID!
+alliance: Alliance
+# BUG: Sometimes 'ceo' is invalid (e.g. corporation 1000176 returns ceo with id 1)
+# ESI marks this as "required" but it's not always valid
+# We mark it as optional to avoid errors
+ceo: Character
+# BUG: Sometimes 'creator' is invalid (e.g. corporation 1000042 returns creator with id 1)
+# ESI marks this as "required" but it's not always valid. We mark it as optional to avoid errors
+# See: https://github.com/esi/esi-issues/issues/453
+creator: Character
+dateFounded: String
+description: String
+faction: Faction
+homeStation: Station
+memberCount: Int!
+name: String!
+shares: Int
+taxRate: Float!
+ticker: String!
+url: String
+warEligible: Boolean
+# TODO add other things from other endpoints /corporation/xxxxx
+# TODO add private/authenticated endpoints
+allianceHistory: [AllianceMembership!]!
+images: [ImageVariation!]!
+### From Assets API ###
+# assets # needs auth
+### From Bookmarks API ###
+# bookmarks # needs auth
+# bookmarkFolders ? # needs auth
+### From Contacts API ###
+# contacts # needs auth
+# contactLabels # needs auth
+}
+
+type AllianceMembership {
+alliance: Alliance
+startDate: String!
+recordId: Int!
+isDeleted: Boolean!
+}
+
+type Race {
+id: ID!
+name: String!
+description: String!
+faction: Faction!
+}
+
+type Attribute {
+id: ID!
+defaultValue: Float # Int cannot represent all
+description: String
+displayName: String
+highIsGood: Boolean
+icon: Icon
+name: String
+published: Boolean
+stackable: Boolean
+unit: Unit
+}
+
+# FIXME
+type Effect {
+id: ID!
+description: String
+disallowAutoRepeat: Boolean
+displayName: String
+effectCategory: Int # ????????????????????????? LOOKUP WHAT THIS IS!!!!
+electronicChance: Boolean
+icon: Icon
+isAssistance: Boolean
+isOffensive: Boolean
+isWarpSafe: Boolean
+modifiers: [EffectModifier!]!
+name: String
+postExpression: Int # ???????????????????
+preExpression: Int # ???????????????????
+published: Boolean
+rangeChance: Boolean
+
+# referenced attributes
+dischargeAttribute: Attribute
+durationAttribute: Attribute
+falloffAttribute: Attribute
+rangeAttribute: Attribute
+trackingSpeedAttribute: Attribute
+}
+
+type EffectModifier {
+func: String!
+domain: String
+effect: Effect
+modifiedAttribute: Attribute
+modifyingAttribute: Attribute
+operator: Int
+}
+
+type Graphic {
+id: ID!
+collisionFile: String
+graphicFile: String
+iconFolder: String
+sofDna: String
+sofFactionName: String
+sofHullName: String
+sofRaceName: String
+}
+
+type Group {
+id: ID!
+category: Category!
+name: String!
+published: Boolean!
+types: [Type!]!
+}
+
+# From ESI
+type Icon @cacheControl(maxAge: 3600, scope: PUBLIC) {
+id: ID!
+file: String!
+description: String
+}
+
+type ImageVariation @cacheControl(maxAge: 3600, scope: PUBLIC) {
+name: ID!
+url: String!
+}
+
+type MarketGroup {
+id: ID!
+name: String!
+description: String!
+parentGroup: MarketGroup
+types: [Type!]!
+}
+
+type Alliance {
+id: ID!
+creatorCorporation: Corporation!
+creator: Character!
+dateFounded: String! # date
+executorCorporation: Corporation
+faction: Faction
+name: String!
+ticker: String!
+corporations: [Corporation!]!
+images: [ImageVariation!]!
+### From Contacts API ###
+# contacts # needs auth
+# contactLabels # needs auth
+}
+
+type CorporationMembership {
+corporation: Corporation!
+isDeleted: Boolean!
+recordId: Int!
+startDate: String! # date
+}
+
+type Faction {
+id: ID!
+corporation: Corporation
+description: String!
+isUnique: Boolean!
+militiaCorporation: Corporation
+name: String!
+sizeFactor: Float!
+solarSystem: SolarSystem
+stationCount: Int!
+stationSystemCount: Int!
+images: [ImageVariation!]!
+}
+
+type Unit {
+id: ID!
+name: String!
+displayName: String
+description: String
+}
+
+type Category {
+id: ID!
+name: String!
+published: Boolean!
+groups: [Group!]!
+}
+
+type Bloodline {
+id: ID!
+charisma: Int!
+corporation: Corporation!
+description: String!
+intelligence: Int!
+memory: Int!
+name: String!
+perception: Int!
+race: Race!
+shipType: Type
+willpower: Int!
+}
+
+type Ancestry {
+id: ID!
+bloodline: Bloodline!
+name: String!
+description: String!
+shortDescription: String
+icon: Icon
+}
+
+type Incursion {
+# no id?
+constellation: Constellation!
+faction: Faction!
+hasBoss: Boolean!
+infestedSolarSystems: [SolarSystem!]!
+influence: Float!
+stagingSolarSystem: SolarSystem!
+state: IncursionState!
+type: String!
+}
+
+enum IncursionState {
+WITHDRAWING
+MOBILIZING
+ESTABLISHED
+}
+
+type ServerStatus {
+id: ID!
+numPlayers: Int!
+version: String!
+startTime: String! # date
+vipMode: Boolean!
+lastUpdated: String!
+}
+
+type Structure {
+id: ID!
+name: String!
+owner: Corporation!
+position: Position!
+solarSystem: SolarSystem!
+type: Type
+}
+
+type OpportunityGroup {
+id: ID!
+name: String!
+description: String!
+notification: String!
+connectedGroups: [OpportunityGroup!]!
+requiredTasks: [OpportunityTask!]!
+}
+
+type OpportunityTask {
+id: ID!
+name: String!
+description: String!
+notification: String!
+}
+
+enum ContractType {
+itemexchange
+auction
+courier
+loan
+unknown
+}
+
+interface Contract {
+id: ID!
+dateIssued: String! # date
+dateExpired: String! # date
+daysToComplete: Int
+forCorporation: Boolean!
+issuerCorporation: Corporation
+issuer: Character
+title: String
+type: ContractType!
+volume: Float
+}
+
+type ItemExchangeContract implements Contract {
+id: ID!
+buyout: Float # auctions only
+collateral: Float # courier only
+dateIssued: String! # date
+dateExpired: String! # date
+daysToComplete: Int
+endLocation: Station # courier only
+forCorporation: Boolean!
+issuerCorporation: Corporation
+issuer: Character
+price: Float # ItemExchanges / Auctions only
+reward: Float # courier only
+startLocation: Station # courier only
+title: String
+type: ContractType!
+volume: Float
+}
+
+interface Character {
+id: ID!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+# TODO add missing endpoints /characters/XXX
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+### From Character API ###
+# agentsResearch # needs auth
+# blueprints # needs auth
+# cspaChargeCost(targetCharId): Int! # needs auth
+# jumpFatigue # needs auth
+# medals # needs auth
+# notifications # needs auth
+# newContactNotifications # needs auth
+# corporationRoles # needs auth
+# standings # needs auth
+# corporationTitles # needs auth
+### From Opportunities API ###
+# finishedOpportunityTasks - needs auth
+### From Assets API ###
+# assets # needs auth
+### From Bookmarks API ###
+# bookmarks # needs auth
+# bookmarkFolders ? # needs auth
+### From Calendar API ###
+# calendarEvents # needs auth
+### From Clones API ###
+# clones # needs auth
+# implants # needs auth
+### From Contacts API ###
+# contacts # needs auth
+# contactLabels # needs auth
+}
+
+type Player implements Character {
+# from Character interface
+id: ID!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+}
+
+type PlayerLocation {
+solarSystem: SolarSystem!
+station: Station
+structure: Structure
+}
+
+type PlayerOnlineStatus {
+lastLogin: String # date
+lastLogout: String # date
+numLogins: Int
+isOnline: Boolean!
+}
+
+type PlayerShip {
+itemId: ID!
+type: Type!
+name: String!
+}
+
+type AuthenticatedPlayer implements Character {
+# from Character interface
+id: ID!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+
+# Authenticated endpoints
+location: PlayerLocation!
+#onlineStatus: PlayerOnlineStatus!
+#ship: PlayerShip!
+}
+
+type AgentType {
+id: ID!
+name: String!
+}
+
+type AgentDivision {
+id: ID!
+name: String!
+}
+
+interface Agent implements Character {
+division: AgentDivision!
+location: Station!
+level: Int!
+# quality has been removed from the game: https://www.eveonline.com/news/view/agents-made-easy-1
+agentType: AgentType!
+isLocator: Boolean!
+
+# from Character interface
+id: ID!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+}
+
+type RegularAgent implements Agent & Character {
+# From Agent
+id: ID!
+division: AgentDivision!
+location: Station!
+level: Int!
+agentType: AgentType!
+isLocator: Boolean!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+}
+
+# FIXME: Nowhere to query this information?
+type Dungeon {
+id: ID!
+}
+
+# FIXME: Nowhere to query this information?
+type SpawnPoint {
+id: ID!
+}
+
+type AgentInSpace implements Agent & Character {
+dungeon: Dungeon!
+solarSystem: SolarSystem!
+spawnPoint: SpawnPoint!
+type: Type!
+
+# From Agent
+id: ID!
+division: AgentDivision!
+location: Station!
+level: Int!
+agentType: AgentType!
+isLocator: Boolean!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+}
+
+type ResearchAgent implements Agent & Character {
+researchSkills: [Type!]!
+
+# From Agent
+id: ID!
+division: AgentDivision!
+location: Station!
+level: Int!
+agentType: AgentType!
+isLocator: Boolean!
+alliance: Alliance
+birthday: String! # date
+bloodline: Bloodline!
+corporation: Corporation!
+description: String
+faction: Faction
+gender: String!
+name: String!
+race: Race!
+securityStatus: Float
+title: String
+corporationHistory: [CorporationMembership!]!
+images: [ImageVariation!]!
+}
+
+type Query {
+# Meta
+ping: String!
+status: [Endpoint!]!
+
+# Alliance
+alliances: [Alliance!]!
+alliance(id: ID!): Alliance!
+
+# Character
+character(id: ID!): Character!
+me: AuthenticatedPlayer!
+
+# Corporation
+corporation(id: ID!): Corporation!
+npcCorporations: [Corporation!]!
+
+# Dogma
+# TODO: /dogma/dynamic/items/{type_id}/{item_id}
+attributes: [Attribute!]!
+attribute(id: ID!): Attribute!
+effects: [Effect!]!
+effect(id: ID!): Effect!
+
+# Incursions
+incursions: [Incursion!]!
+
+# Market
+marketGroups: [MarketGroup!]!
+marketGroup(id: ID!): MarketGroup!
+
+# Opportunities
+opportunityGroups: [OpportunityGroup!]!
+opportunityGroup(id: ID!): OpportunityGroup!
+opportunityTasks: [OpportunityTask!]!
+opportunityTask(id: ID!): OpportunityTask!
+
+# Status
+serverStatus(id: ID): ServerStatus!
+
+# Universe
+ancestries: [Ancestry!]!
+ancestry(id: ID!): Ancestry!
+asteroidBelt(id: ID!): AsteroidBelt!
+bloodlines: [Bloodline!]!
+bloodline(id: ID!): Bloodline!
+categories: [Category!]!
+category(id: ID!): Category!
+constellations: [Constellation!]!
+constellation(id: ID!): Constellation!
+factions: [Faction!]!
+faction(id: ID!): Faction!
+graphics: [Graphic!]!
+graphic(id: ID!): Graphic!
+groups: [Group!]!
+group(id: ID!): Group!
+moon(id: ID!): Moon!
+planet(id: ID!): Planet!
+races: [Race!]!
+race(id: ID!): Race!
+regions: [Region!]!
+region(id: ID!): Region!
+solarSystems: [SolarSystem!]!
+solarSystem(id: ID!): SolarSystem!
+star(id: ID!): Star!
+stargate(id: ID!): Stargate!
+station(id: ID!): Station!
+#structures: [Structure!]!
+#structure(id: ID!): Structure!
+types: [Type!]!
+type(id: ID!): Type!
+
+# SDE
+agents: [Agent!]!
+agent(id: ID!): Agent!
+icons: [Icon!]!
+icon(id: ID!): Icon!
+
+# Hoboleaks
+units: [Unit!]!
+unit(id: ID!): Unit!
+}
+
+type Mutation {
+nop: String!
+}
+
+type Subscription {
+hello: String!
+postCreated: String!
+serverStatus: ServerStatus!
+}
+
+enum CacheControlScope {
+PUBLIC
+PRIVATE
+}
+
+directive @cacheControl(
+maxAge: Int
+scope: CacheControlScope
+inheritMaxAge: Boolean
+) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
