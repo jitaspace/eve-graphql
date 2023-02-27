@@ -1,8 +1,6 @@
 import type { QueryResolvers } from "./../types.generated";
-export const status: NonNullable<QueryResolvers["status"]> = async (
-  _parent,
-  _arg,
-  _ctx
-) => {
-  /* Implement Query.status resolver logic here */
-};
+import { retrieveAndCache } from "@/graphql/utils/resolver";
+
+export const status: NonNullable<QueryResolvers["status"]> = retrieveAndCache(
+  (_, __, { dataSources }) => dataSources.metaApi.getStatus()
+);
