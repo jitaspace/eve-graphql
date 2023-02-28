@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetAncestryDetailsQuery } from "../../generated/graphql";
+import { useGetAncestryDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -69,7 +69,10 @@ const AncestryCardDetailed = ({ ancestryId }: Props) => {
             Bloodline:{" "}
             <Anchor
               component={Link}
-              href={"/bloodline/" + data.ancestry.bloodline.id}
+              href={{
+                pathname: "/bloodline/[id]",
+                query: { id: data.ancestry.bloodline.id },
+              }}
             >
               {data.ancestry.bloodline.name}
             </Anchor>

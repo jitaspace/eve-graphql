@@ -44,7 +44,7 @@ const ConstellationCardDetailed = ({ constellationId }: Props) => {
   });
 
   if (loading) return <Loader />;
-  if (error) return <GraphQLErrorAlert error={error} />;
+  if (!data || error) return <GraphQLErrorAlert error={error} />;
 
   return (
     <Card>
@@ -62,7 +62,10 @@ const ConstellationCardDetailed = ({ constellationId }: Props) => {
             <Skeleton visible={loading}>
               <Anchor
                 component={Link}
-                href={"/region/" + data?.constellation.region.id}
+                href={{
+                  pathname: "/region/[id]",
+                  query: { id: data.constellation.region.id },
+                }}
                 size="sm"
                 mt="xs"
               >
@@ -81,7 +84,10 @@ const ConstellationCardDetailed = ({ constellationId }: Props) => {
           {data?.constellation.solarSystems.map((solarSystem) => (
             <UnstyledButton
               component={Link}
-              href={"/solarsystem/" + solarSystem.id}
+              href={{
+                pathname: "/solarsystem/[id]",
+                query: { id: solarSystem.id },
+              }}
               key={solarSystem.id}
             >
               <Title align="center" order={5}>

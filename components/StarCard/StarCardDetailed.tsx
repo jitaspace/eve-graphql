@@ -1,6 +1,6 @@
 import { Anchor, Card, Group, Loader, Text } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetStarDetailsQuery } from "../../generated/graphql";
+import { useGetStarDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -63,7 +63,13 @@ const StarCardDetailed = ({ starId }: Props) => {
           <Text>Spectral Class: {data.star.spectralClass}</Text>
           <Text>
             Type:{" "}
-            <Anchor component={Link} href={"/type/" + data.star.type.id}>
+            <Anchor
+              component={Link}
+              href={{
+                pathname: "/type/[id]",
+                query: { id: data.star.type.id },
+              }}
+            >
               {data.star.type.name}
             </Anchor>
           </Text>
@@ -71,7 +77,10 @@ const StarCardDetailed = ({ starId }: Props) => {
             Solar System:{" "}
             <Anchor
               component={Link}
-              href={"/solarsystem/" + data.star.solarSystem.id}
+              href={{
+                pathname: "/solarsystem/[id]",
+                query: { id: data.star.solarSystem.id },
+              }}
             >
               {data.star.solarSystem.name}
             </Anchor>
@@ -81,6 +90,7 @@ const StarCardDetailed = ({ starId }: Props) => {
           src={
             "https://images.evetech.net/types/" + data.star.type.id + "/render"
           }
+          alt={data.star.type.name}
           width={256}
           height={256}
           style={{ borderRadius: "128px", overflow: "hidden" }}

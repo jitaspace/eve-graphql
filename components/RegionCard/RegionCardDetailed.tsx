@@ -10,7 +10,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetRegionConstellationsQuery } from "../../generated/graphql";
+import { useGetRegionConstellationsQuery } from "@/generated/graphql";
 import ActionsGrid from "../ActionsGrid";
 import React from "react";
 import Link from "next/link";
@@ -76,7 +76,10 @@ const RegionCardDetailed = ({ regionId }: Props) => {
           {data?.region.constellations.map((constellation) => (
             <Link
               key={constellation.id}
-              href={"/constellation/" + constellation.id}
+              href={{
+                pathname: "/constellation/[id]",
+                query: { id: constellation.id },
+              }}
             >
               <UnstyledButton key={constellation.id}>
                 <Title align="center" order={5}>

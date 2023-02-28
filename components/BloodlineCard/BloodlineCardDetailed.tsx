@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetBloodlineDetailsQuery } from "../../generated/graphql";
+import { useGetBloodlineDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -80,7 +80,15 @@ const BloodlineCardDetailed = ({ bloodlineId }: Props) => {
         {data.bloodline.race.name && (
           <Text>
             Race:{" "}
-            <Anchor component={Link} href={"/race/" + data.bloodline.race.id}>
+            <Anchor
+              component={Link}
+              href={{
+                pathname: "/race/[id]",
+                query: {
+                  id: data.bloodline.race.id,
+                },
+              }}
+            >
               {data.bloodline.race.name}
             </Anchor>
           </Text>
@@ -89,7 +97,12 @@ const BloodlineCardDetailed = ({ bloodlineId }: Props) => {
           Corporation:{" "}
           <Anchor
             component={Link}
-            href={"/corporation/" + data.bloodline.corporation.id}
+            href={{
+              pathname: "/corporation/[id]",
+              query: {
+                id: data.bloodline.corporation.id,
+              },
+            }}
           >
             {data.bloodline.corporation.name}
           </Anchor>
@@ -99,7 +112,12 @@ const BloodlineCardDetailed = ({ bloodlineId }: Props) => {
             Corvette:{" "}
             <Anchor
               component={Link}
-              href={"/type/" + data.bloodline.shipType.id}
+              href={{
+                pathname: "/type/[id]",
+                query: {
+                  id: data.bloodline.shipType.id,
+                },
+              }}
             >
               {data.bloodline.shipType.name}
             </Anchor>

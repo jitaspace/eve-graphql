@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetFactionDetailsQuery } from "../../generated/graphql";
+import { useGetFactionDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -73,7 +73,10 @@ const FactionCardDetailed = ({ factionId }: Props) => {
                   Corporation:{" "}
                   <Anchor
                     component={Link}
-                    href={"/corporation/" + data.faction.corporation.id}
+                    href={{
+                      pathname: "/corporation/[id]",
+                      query: { id: data.faction.corporation.id },
+                    }}
                   >
                     {data.faction.corporation.name}
                   </Anchor>
@@ -84,7 +87,10 @@ const FactionCardDetailed = ({ factionId }: Props) => {
                   Militia Corporation:{" "}
                   <Anchor
                     component={Link}
-                    href={"/corporation/" + data.faction.militiaCorporation.id}
+                    href={{
+                      pathname: "/corporation/[id]",
+                      query: { id: data.faction.militiaCorporation.id },
+                    }}
                   >
                     {data.faction.militiaCorporation.name}
                   </Anchor>
@@ -95,7 +101,10 @@ const FactionCardDetailed = ({ factionId }: Props) => {
                   Solar System:{" "}
                   <Anchor
                     component={Link}
-                    href={"/solarsystem/" + data.faction.solarSystem.id}
+                    href={{
+                      pathname: "/solarsystem/[id]",
+                      query: { id: data.faction.solarSystem.id },
+                    }}
                   >
                     {data.faction.solarSystem.name}
                   </Anchor>

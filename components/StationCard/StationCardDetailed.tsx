@@ -62,47 +62,55 @@ const StationCardDetailed = ({ stationId }: Props) => {
           <Group style={{ minWidth: "350px" }}>
             <Group position="apart">
               <Text size="lg" weight={500}>
-                <Skeleton visible={loading}>{data?.station.name}</Skeleton>
+                <Skeleton visible={loading}>{data.station.name}</Skeleton>
               </Text>
               <Text size="xs" color="dimmed">
-                <Skeleton visible={loading}>{data?.station.id}</Skeleton>
+                <Skeleton visible={loading}>{data.station.id}</Skeleton>
               </Text>
             </Group>
-            {data?.station.solarSystem && (
+            {data.station.solarSystem && (
               <Skeleton visible={loading}>
                 Solar System:{" "}
                 <Anchor
                   component={Link}
-                  href={"/solarsystem/" + data?.station.solarSystem.id}
+                  href={{
+                    pathname: "/solarsystem/[id]",
+                    query: { id: data.station.solarSystem.id },
+                  }}
                 >
-                  {data?.station.solarSystem.name}
+                  {data.station.solarSystem.name}
                 </Anchor>
               </Skeleton>
             )}
             <Skeleton visible={loading}>
               Type:{" "}
-              <Anchor component={Link} href={"/type/" + data?.station.type.id}>
-                {data?.station.type.name ?? ""}
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/type/[id]",
+                  query: { id: data.station.type.id },
+                }}
+              >
+                {data.station.type.name ?? ""}
               </Anchor>
             </Skeleton>
             <Text>
-              Max Dockable Ship Volume: {data?.station.maxDockableShipVolume} m³
+              Max Dockable Ship Volume: {data.station.maxDockableShipVolume} m³
             </Text>
-            <Text>
-              Office Rental Cost: {data?.station.officeRentalCost} ISK
-            </Text>
+            <Text>Office Rental Cost: {data.station.officeRentalCost} ISK</Text>
             <Text>
               Reprocessing Efficiency:{" "}
-              {data?.station.reprocessingEfficiency * 100}%
+              {data.station.reprocessingEfficiency * 100}%
             </Text>
             <Text>
               Reprocessing Stations Take:{" "}
-              {data?.station.reprocessingStationsTake * 100}%
+              {data.station.reprocessingStationsTake * 100}%
             </Text>
           </Group>
           <Group style={{ maxWidth: "128px" }}>
             <Image
-              src={data?.station.type.images[0].url ?? ""}
+              src={data.station.type.images[0].url ?? ""}
+              alt={data.station.type.name ?? ""}
               width={128}
               height={128}
             />

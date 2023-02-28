@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetMoonDetailsQuery } from "../../generated/graphql";
+import { useGetMoonDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -42,7 +42,7 @@ const MoonCardDetailed = ({ moonId }: Props) => {
   });
 
   if (loading) return <Loader />;
-  if (error) return <GraphQLErrorAlert error={error} />;
+  if (!data || error) return <GraphQLErrorAlert error={error} />;
 
   return (
     <Card>
@@ -64,7 +64,10 @@ const MoonCardDetailed = ({ moonId }: Props) => {
                     Solar System:{" "}
                     <Anchor
                       component={Link}
-                      href={"/solarsystem/" + data?.moon.solarSystem.id}
+                      href={{
+                        pathname: "/solarsystem/[id]",
+                        query: { id: data.moon.solarSystem.id },
+                      }}
                     >
                       {data?.moon.solarSystem.name}
                     </Anchor>
@@ -84,6 +87,7 @@ const MoonCardDetailed = ({ moonId }: Props) => {
             <td style={{ width: "128px" }}>
               <Image
                 src="https://images.evetech.net/types/14/icon"
+                alt="Moon"
                 width={128}
                 height={128}
               />

@@ -41,7 +41,10 @@ const IncursionCardDetailed = ({
         <Group position="apart">
           <Anchor
             component={Link}
-            href={"/faction/" + faction.id}
+            href={{
+              pathname: "/faction/[id]",
+              query: { id: faction.id },
+            }}
             size="lg"
             weight={500}
           >
@@ -71,7 +74,10 @@ const IncursionCardDetailed = ({
             Staging Solar System:{" "}
             <Anchor
               component={Link}
-              href={"/solarsystem/" + stagingSolarSystem.id}
+              href={{
+                pathname: "/solarsystem/[id]",
+                query: { id: stagingSolarSystem.id },
+              }}
             >
               {stagingSolarSystem.name}
             </Anchor>
@@ -85,7 +91,10 @@ const IncursionCardDetailed = ({
             Constellation:{" "}
             <Anchor
               component={Link}
-              href={"/constellation/" + constellation.id}
+              href={{
+                pathname: "/constellation/[id]",
+                query: { id: constellation.id },
+              }}
             >
               {constellation.name}
             </Anchor>
@@ -100,7 +109,13 @@ const IncursionCardDetailed = ({
           </Text>
           {infestedSolarSystems.map((solarSystem) => (
             <Group key={solarSystem.id} position="apart">
-              <Anchor component={Link} href={"/solarsystem/" + solarSystem.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/solarsystem/[id]",
+                  query: { id: solarSystem.id },
+                }}
+              >
                 {solarSystem.name}
               </Anchor>
               <Text align="right" size="xs" color="dimmed">

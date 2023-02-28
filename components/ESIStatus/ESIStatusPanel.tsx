@@ -1,19 +1,15 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 import {
-  createStyles,
   Badge,
-  Container,
-  Title,
-  Text,
-  Button,
-  Anchor,
-  Loader,
   ColorSwatch,
   Group,
+  Loader,
   Stack,
-} from '@mantine/core';
-import { useGetEsiStatusQuery } from '../../generated/graphql';
-import React from 'react';
+  Text,
+  Title,
+} from "@mantine/core";
+import { useGetEsiStatusQuery } from "@/generated/graphql";
+import React from "react";
 
 export const QUERY = gql`
   query GetEsiStatus {
@@ -42,15 +38,16 @@ const ESIStatusPanel = () => {
   const tags = [...new Set(data.status.flatMap((s) => s.tags))];
   tags.sort();
 
-  const erroredEndpoints = data.status.filter((s) => s.status !== 'green');
+  const erroredEndpoints = data.status.filter((s) => s.status !== "green");
 
   return (
     <>
       <Title order={4} mt="xl" mb="sm">
-        ESI Status{' '}
+        ESI Status{" "}
         {erroredEndpoints.length > 0 && (
           <Badge color="red">
-            {erroredEndpoints.length} {erroredEndpoints.length > 1 ? 'errors' : 'error'}
+            {erroredEndpoints.length}{" "}
+            {erroredEndpoints.length > 1 ? "errors" : "error"}
           </Badge>
         )}
       </Title>

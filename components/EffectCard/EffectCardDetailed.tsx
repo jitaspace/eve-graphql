@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetEffectDetailsQuery } from "../../generated/graphql";
+import { useGetEffectDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import { GraphQLErrorAlert } from "../Alert";
 import Link from "next/link";
@@ -148,7 +148,13 @@ const EffectCardDetailed = ({ effectId }: Props) => {
       <Group position="apart">
         <Group spacing="xs">
           {attributeType}:{" "}
-          <Anchor component={Link} href={"/attribute/" + attribute.id}>
+          <Anchor
+            component={Link}
+            href={{
+              pathname: "/attribute/[id]",
+              query: { id: attribute.id },
+            }}
+          >
             {attribute.displayName ?? attribute.name ?? "Unnamed Attribute"}
           </Anchor>
         </Group>
@@ -236,7 +242,10 @@ const EffectCardDetailed = ({ effectId }: Props) => {
                   Effect:{" "}
                   <Anchor
                     component={Link}
-                    href={"/attribute/" + modifier.effect.id}
+                    href={{
+                      pathname: "/effect/[id]",
+                      query: { id: modifier.effect.id },
+                    }}
                   >
                     {modifier.effect.displayName ||
                       modifier.effect.name ||
@@ -254,7 +263,10 @@ const EffectCardDetailed = ({ effectId }: Props) => {
                   Modified Attribute:{" "}
                   <Anchor
                     component={Link}
-                    href={"/attribute/" + modifier.modifiedAttribute.id}
+                    href={{
+                      pathname: "/attribute/[id]",
+                      query: { id: modifier.modifiedAttribute.id },
+                    }}
                   >
                     {modifier.modifiedAttribute.displayName ||
                       modifier.modifiedAttribute.name ||
@@ -272,7 +284,10 @@ const EffectCardDetailed = ({ effectId }: Props) => {
                   Modifying Attribute:{" "}
                   <Anchor
                     component={Link}
-                    href={"/attribute/" + modifier.modifyingAttribute.id}
+                    href={{
+                      pathname: "/attribute/[id]",
+                      query: { id: modifier.modifyingAttribute.id },
+                    }}
                   >
                     {modifier.modifyingAttribute.displayName ||
                       modifier.modifyingAttribute.name ||

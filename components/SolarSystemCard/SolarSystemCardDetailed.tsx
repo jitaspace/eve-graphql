@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetSolarSystemDetailsQuery } from "../../generated/graphql";
+import { useGetSolarSystemDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -90,6 +90,7 @@ export const QUERY = gql`
             name
             star {
               type {
+                name
                 images {
                   url
                 }
@@ -121,7 +122,7 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
   });
 
   if (loading) return <Loader />;
-  if (error) return <GraphQLErrorAlert error={error} />;
+  if (!data || error) return <GraphQLErrorAlert error={error} />;
 
   return (
     <Card>
@@ -129,67 +130,77 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
         <>
           <Group position="apart">
             <Text size="lg" weight={500}>
-              <Skeleton visible={loading}>{data?.solarSystem.name}</Skeleton>
+              <Skeleton visible={loading}>{data.solarSystem.name}</Skeleton>
             </Text>
             <Text size="xs" color="dimmed">
-              <Skeleton visible={loading}>{data?.solarSystem.id}</Skeleton>
+              <Skeleton visible={loading}>{data.solarSystem.id}</Skeleton>
             </Text>
           </Group>
           <Skeleton visible={loading}>
             Constellation:{" "}
             <Anchor
               component={Link}
-              href={"/constellation/" + data?.solarSystem.constellation.id}
+              href={{
+                pathname: "/constellation/[id]",
+                query: { id: data.solarSystem.constellation.id },
+              }}
               size="sm"
               mt="xs"
             >
-              {data?.solarSystem.constellation.name ?? ""}
+              {data.solarSystem.constellation.name ?? ""}
             </Anchor>
           </Skeleton>
           <Skeleton visible={loading}>
             Region:{" "}
             <Anchor
               component={Link}
-              href={"/region/" + data?.solarSystem.constellation.id}
+              //href={"/region/" + data.solarSystem.constellation.id}
+              href={{
+                pathname: "/region/[id]",
+                query: { id: data.solarSystem.constellation.region.id },
+              }}
               size="sm"
               mt="xs"
             >
-              {data?.solarSystem.constellation.region.name ?? ""}
+              {data.solarSystem.constellation.region.name ?? ""}
             </Anchor>
           </Skeleton>
           <Text size="sm" mt="xs">
-            Security Status: {data?.solarSystem.securityStatus}
+            Security Status: {data.solarSystem.securityStatus}
           </Text>
           <Text size="sm" mt="xs">
-            Security Class: {data?.solarSystem.securityClass}
+            Security Class: {data.solarSystem.securityClass}
           </Text>
           <Text size="sm" mt="xs">
-            Jumps in the last hour: {data?.solarSystem.shipJumps}
+            Jumps in the last hour: {data.solarSystem.shipJumps}
           </Text>
           <Text size="sm" mt="xs">
-            Ship kills in the last hour: {data?.solarSystem.shipKills}
+            Ship kills in the last hour: {data.solarSystem.shipKills}
           </Text>
           <Text size="sm" mt="xs">
-            Pod kills in the last hour: {data?.solarSystem.podKills}
+            Pod kills in the last hour: {data.solarSystem.podKills}
           </Text>
           <Text size="sm" mt="xs">
-            NPC kills in the last hour: {data?.solarSystem.npcKills}
+            NPC kills in the last hour: {data.solarSystem.npcKills}
           </Text>
           <Text size="sm" mt="xs">
-            Position: ({data?.solarSystem.position.x},{" "}
-            {data?.solarSystem.position.y}, {data?.solarSystem.position.z})
+            Position: ({data.solarSystem.position.x},{" "}
+            {data.solarSystem.position.y}, {data.solarSystem.position.z})
           </Text>
-          {data?.solarSystem.star && (
+          {data.solarSystem.star && (
             <>
               Star:{" "}
               <Anchor
                 component={Link}
-                href={"/star/" + data?.solarSystem.star.id}
+                href={{
+                  pathname: "/star/[id]",
+                  query: { id: data.solarSystem.star.id },
+                }}
                 size="sm"
                 mt="xs"
               >
-                {data?.solarSystem.star?.name} -{" "}
-                {data?.solarSystem.star?.type.name}
+                {data.solarSystem.star?.name} -{" "}
+                {data.solarSystem.star?.type.name}
               </Anchor>
             </>
           )}
@@ -197,7 +208,7 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
       </Card.Section>
       <Card.Section p="xl">
         <Text size="md" weight={500}>
-          Stations ({data?.solarSystem.stations.length})
+          Stations ({data.solarSystem.stations.length})
         </Text>
         <Table sx={{ minWidth: 800 }} verticalSpacing="md">
           <thead>
@@ -208,12 +219,15 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data?.solarSystem.stations.map((station) => (
+            {data.solarSystem.stations.map((station) => (
               <tr key={station.id}>
                 <td>
                   <Anchor
                     component={Link}
-                    href={"/station/" + station.id}
+                    href={{
+                      pathname: "/station/[id]",
+                      query: { id: station.id },
+                    }}
                     size="sm"
                     weight={500}
                   >
@@ -231,11 +245,15 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
                       width={40}
                       height={40}
                       src={station.type.images[0].url}
+                      alt={station.type.name}
                     />
                     <div>
                       <Anchor
                         component={Link}
-                        href={"/type/" + station.type.id}
+                        href={{
+                          pathname: "/type/[id]",
+                          query: { id: station.type.id },
+                        }}
                         size="sm"
                         weight={500}
                       >
@@ -253,11 +271,15 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
                       width={40}
                       height={40}
                       src={station.owner.images[0].url}
+                      alt={station.owner.name}
                     />
                     <div>
                       <Anchor
                         component={Link}
-                        href={"/corporation/" + station.owner.id}
+                        href={{
+                          pathname: "/corporation/[id]",
+                          query: { id: station.owner.id },
+                        }}
                         size="sm"
                         weight={500}
                       >
@@ -274,10 +296,10 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
           </tbody>
         </Table>
       </Card.Section>
-      {data?.solarSystem.stargates && (
+      {data.solarSystem.stargates && (
         <Card.Section p="xl">
           <Text size="md" weight={500}>
-            Stargates ({data?.solarSystem.stargates.length})
+            Stargates ({data.solarSystem.stargates.length})
           </Text>
           <Table sx={{ minWidth: 800 }} verticalSpacing="md">
             <thead>
@@ -288,14 +310,17 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {data?.solarSystem.stargates.map((stargate) => (
+              {data.solarSystem.stargates.map((stargate) => (
                 <tr key={stargate.id}>
                   <td>
                     <Group spacing="sm">
                       <div>
                         <Anchor
                           component={Link}
-                          href={"/stargate/" + stargate.id}
+                          href={{
+                            pathname: "/stargate/[id]",
+                            query: { id: stargate.id },
+                          }}
                           size="sm"
                           weight={500}
                         >
@@ -313,11 +338,15 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
                         width={40}
                         height={40}
                         src={stargate.type.images[0].url}
+                        alt={stargate.type.name}
                       />
                       <div>
                         <Anchor
                           component={Link}
-                          href={"/type/" + stargate.type.id}
+                          href={{
+                            pathname: "/type/[id]",
+                            query: { id: stargate.type.id },
+                          }}
                           size="sm"
                         >
                           {stargate.type.name}
@@ -338,15 +367,16 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
                             stargate.destination.solarSystem.star.type.images[0]
                               .url
                           }
+                          alt={stargate.destination.solarSystem.star.type.name}
                         />
                       )}
                       <div>
                         <Anchor
                           component={Link}
-                          href={
-                            "/solarsystem/" +
-                            stargate.destination.solarSystem.id
-                          }
+                          href={{
+                            pathname: "/solarsystem/[id]",
+                            query: { id: stargate.destination.solarSystem.id },
+                          }}
                           size="sm"
                         >
                           {stargate.destination.solarSystem.name}
@@ -368,7 +398,7 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
       )}
       <Card.Section p="xl">
         <Text size="md" weight={500}>
-          Planets ({data?.solarSystem.planets.length})
+          Planets ({data.solarSystem.planets.length})
         </Text>
         <Table sx={{ minWidth: 800 }} verticalSpacing="md">
           <thead>
@@ -380,14 +410,17 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data?.solarSystem.planets.map((planet) => (
+            {data.solarSystem.planets.map((planet) => (
               <tr key={planet.id}>
                 <td>
                   <Group spacing="sm">
                     <div>
                       <Anchor
                         component={Link}
-                        href={"/planet/" + planet.id}
+                        href={{
+                          pathname: "/planet/[id]",
+                          query: { id: planet.id },
+                        }}
                         size="sm"
                         weight={500}
                       >
@@ -405,11 +438,15 @@ const SolarSystemCardDetailed = ({ solarSystemId }: Props) => {
                       width={40}
                       height={40}
                       src={planet.type.images[0].url}
+                      alt={planet.type.name}
                     />
                     <div>
                       <Anchor
                         component={Link}
-                        href={"/type/" + planet.type.id}
+                        href={{
+                          pathname: "/type/[id]",
+                          query: { id: planet.type.id },
+                        }}
                         size="sm"
                       >
                         {planet.type.name}

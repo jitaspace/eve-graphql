@@ -94,7 +94,10 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
               CEO:{" "}
               <Anchor
                 component={Link}
-                href={"/character/" + data.corporation.ceo.id}
+                href={{
+                  pathname: "/character/[id]",
+                  query: { id: data.corporation.ceo.id },
+                }}
               >
                 {data.corporation.ceo.name}
               </Anchor>
@@ -105,7 +108,10 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
               Creator:
               <Anchor
                 component={Link}
-                href={"/character/" + data.corporation.creator.id}
+                href={{
+                  pathname: "/character/[id]",
+                  query: { id: data.corporation.creator.id },
+                }}
               >
                 {data.corporation.creator.name}
               </Anchor>
@@ -116,7 +122,10 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
               Faction:{" "}
               <Anchor
                 component={Link}
-                href={"/faction/" + data.corporation.faction.id}
+                href={{
+                  pathname: "/faction/[id]",
+                  query: { id: data.corporation.faction.id },
+                }}
               >
                 {data.corporation.faction.name}
               </Anchor>
@@ -127,7 +136,10 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
               Alliance:{" "}
               <Anchor
                 component={Link}
-                href={"/alliance/" + data.corporation.alliance.id}
+                href={{
+                  pathname: "/alliance/[id]",
+                  query: { id: data.corporation.alliance.id },
+                }}
               >
                 {data.corporation.alliance.name}
               </Anchor>
@@ -138,7 +150,10 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
               Home Station:{" "}
               <Anchor
                 component={Link}
-                href={"/station/" + data.corporation.homeStation.id}
+                href={{
+                  pathname: "/station/[id]",
+                  query: { id: data.corporation.homeStation.id },
+                }}
               >
                 {data.corporation.homeStation.name}
               </Anchor>
@@ -147,7 +162,7 @@ const CorporationCardDetailed = ({ corporationId }: Props) => {
           {data.corporation.url && (
             <Text>
               URL:{" "}
-              <Anchor component={Link} href={data.corporation.url}>
+              <Anchor href={data.corporation.url}>
                 {data.corporation.url}
               </Anchor>
             </Text>

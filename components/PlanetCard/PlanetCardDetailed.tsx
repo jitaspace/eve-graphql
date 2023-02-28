@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetPlanetDetailsQuery } from "../../generated/graphql";
+import { useGetPlanetDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -67,7 +67,7 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
   });
 
   if (loading) return <Loader />;
-  if (error) return <GraphQLErrorAlert error={error} />;
+  if (!data || error) return <GraphQLErrorAlert error={error} />;
 
   return (
     <Card>
@@ -77,10 +77,10 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
             <td>
               <Group position="apart" mr="xl">
                 <Text size="lg" weight={500}>
-                  <Skeleton visible={loading}>{data?.planet.name}</Skeleton>
+                  <Skeleton visible={loading}>{data.planet.name}</Skeleton>
                 </Text>
                 <Text size="xs" color="dimmed">
-                  <Skeleton visible={loading}>{data?.planet.id}</Skeleton>
+                  <Skeleton visible={loading}>{data.planet.id}</Skeleton>
                 </Text>
               </Group>
               <Group position="apart" mr="xl">
@@ -89,15 +89,18 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
                     Solar System:{" "}
                     <Anchor
                       component={Link}
-                      href={"/solarsystem/" + data?.planet.solarSystem.id}
+                      href={{
+                        pathname: "/solarsystem/[id]",
+                        query: { id: data.planet.solarSystem.id },
+                      }}
                     >
-                      {data?.planet.solarSystem.name}
+                      {data.planet.solarSystem.name}
                     </Anchor>
                   </Skeleton>
                 </Text>
                 <Text size="xs" color="dimmed">
                   <Skeleton visible={loading}>
-                    {data?.planet.solarSystem.id}
+                    {data.planet.solarSystem.id}
                   </Skeleton>
                 </Text>
               </Group>
@@ -107,24 +110,28 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
                     Type:{" "}
                     <Anchor
                       component={Link}
-                      href={"/type/" + data?.planet.type.id}
+                      href={{
+                        pathname: "/type/[id]",
+                        query: { id: data.planet.type.id },
+                      }}
                     >
-                      {data?.planet.type.name}
+                      {data.planet.type.name}
                     </Anchor>
                   </Skeleton>
                 </Text>
                 <Text size="xs" color="dimmed">
-                  <Skeleton visible={loading}>{data?.planet.type.id}</Skeleton>
+                  <Skeleton visible={loading}>{data.planet.type.id}</Skeleton>
                 </Text>
               </Group>
               <Text size="sm" mt="xs">
-                Position: ({data?.planet.position.x}, {data?.planet.position.y},{" "}
-                {data?.planet.position.z})
+                Position: ({data.planet.position.x}, {data.planet.position.y},{" "}
+                {data.planet.position.z})
               </Text>
             </td>
             <td style={{ width: "128px" }}>
               <Image
-                src={data?.planet.type.images[0].url ?? ""}
+                src={data.planet.type.images[0].url ?? ""}
+                alt={data.planet.type.name}
                 width={128}
                 height={128}
               />
@@ -134,7 +141,7 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
       </Card.Section>
       <Card.Section p="xl">
         <Text size="md" weight={500}>
-          Moons ({data?.planet.moons.length})
+          Moons ({data.planet.moons.length})
         </Text>
         <Table sx={{ minWidth: 800 }} verticalSpacing="md">
           <thead>
@@ -144,12 +151,15 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data?.planet.moons.map((moon) => (
+            {data.planet.moons.map((moon) => (
               <tr key={moon.id}>
                 <td>
                   <Anchor
                     component={Link}
-                    href={"/moon/" + moon.id}
+                    href={{
+                      pathname: "/moon/[id]",
+                      query: { id: moon.id },
+                    }}
                     size="sm"
                     weight={500}
                   >
@@ -169,7 +179,7 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
       </Card.Section>
       <Card.Section p="xl">
         <Text size="md" weight={500}>
-          Asteroid Belts ({data?.planet.asteroidBelts.length})
+          Asteroid Belts ({data.planet.asteroidBelts.length})
         </Text>
         <Table sx={{ minWidth: 800 }} verticalSpacing="md">
           <thead>
@@ -179,12 +189,15 @@ const PlanetCardDetailed = ({ planetId }: Props) => {
             </tr>
           </thead>
           <tbody>
-            {data?.planet.asteroidBelts.map((asteroidBelt) => (
+            {data.planet.asteroidBelts.map((asteroidBelt) => (
               <tr key={asteroidBelt.id}>
                 <td>
                   <Anchor
                     component={Link}
-                    href={"/asteroidbelt/" + asteroidBelt.id}
+                    href={{
+                      pathname: "/asteroidbelt/[id]",
+                      query: { id: asteroidBelt.id },
+                    }}
                     size="sm"
                     weight={500}
                   >

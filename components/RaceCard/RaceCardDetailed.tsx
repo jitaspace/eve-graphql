@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
-import { useGetRaceDetailsQuery } from "../../generated/graphql";
+import { useGetRaceDetailsQuery } from "@/generated/graphql";
 
 export const QUERY = gql`
   query GetRaceDetails($raceId: ID!) {
@@ -66,7 +66,13 @@ const RaceCardDetailed = ({ raceId }: Props) => {
         {data.race.faction && (
           <Text>
             Faction:{" "}
-            <Anchor component={Link} href={"/faction/" + data.race.faction.id}>
+            <Anchor
+              component={Link}
+              href={{
+                pathname: "/faction/[id]",
+                query: { id: data.race.faction.id },
+              }}
+            >
               {data.race.faction.name}
             </Anchor>
           </Text>

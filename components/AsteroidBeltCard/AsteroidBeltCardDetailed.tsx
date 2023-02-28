@@ -8,7 +8,7 @@ import {
   Text,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetAsteroidBeltDetailsQuery } from "../../generated/graphql";
+import { useGetAsteroidBeltDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -61,17 +61,20 @@ const AsteroidBeltCardDetailed = ({ asteroidBeltId }: Props) => {
                 </Text>
               </Group>
               <Group position="apart" mr="xl">
-                <Text>
+                {data?.asteroidBelt.solarSystem.id && (
                   <Skeleton visible={loading}>
                     Solar System:{" "}
                     <Anchor
                       component={Link}
-                      href={"/solarsystem/" + data?.asteroidBelt.solarSystem.id}
+                      href={{
+                        pathname: "/solarsystem/[id]",
+                        query: { id: data?.asteroidBelt.solarSystem.id },
+                      }}
                     >
                       {data?.asteroidBelt.solarSystem.name}
                     </Anchor>
                   </Skeleton>
-                </Text>
+                )}
                 <Text size="xs" color="dimmed">
                   <Skeleton visible={loading}>
                     {data?.asteroidBelt.solarSystem.id}
@@ -87,6 +90,7 @@ const AsteroidBeltCardDetailed = ({ asteroidBeltId }: Props) => {
             <td style={{ width: "128px" }}>
               <Image
                 src="https://images.evetech.net/types/15/icon"
+                alt="Asteroid Belt"
                 width={128}
                 height={128}
               />

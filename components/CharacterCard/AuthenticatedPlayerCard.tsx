@@ -9,7 +9,7 @@ import {
   Timeline,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetAuthenticatedPlayerDetailsQuery } from "../../generated/graphql";
+import { useGetAuthenticatedPlayerDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -107,7 +107,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
               Corporation:{" "}
               <Anchor
                 component={Link}
-                href={"/corporation/" + data.me.corporation.id}
+                href={{
+                  pathname: "/corporation/[id]",
+                  query: { id: data.me.corporation.id },
+                }}
               >
                 {data.me.corporation.name}
               </Anchor>
@@ -125,7 +128,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
                 Alliance:{" "}
                 <Anchor
                   component={Link}
-                  href={"/alliance/" + data.me.alliance.id}
+                  href={{
+                    pathname: "/alliance/[id]",
+                    query: { id: data.me.alliance.id },
+                  }}
                 >
                   {data.me.alliance.name}
                 </Anchor>
@@ -147,7 +153,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
               Bloodline:{" "}
               <Anchor
                 component={Link}
-                href={"/bloodline/" + data.me.bloodline.id}
+                href={{
+                  pathname: "/bloodline/[id]",
+                  query: { id: data.me.bloodline.id },
+                }}
               >
                 {data.me.bloodline.name}
               </Anchor>
@@ -159,7 +168,13 @@ const AuthenticatedPlayerCard = (props: Props) => {
           <Group position="apart">
             <Text>
               Race:{" "}
-              <Anchor component={Link} href={"/race/" + data.me.race.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/race/[id]",
+                  query: { id: data.me.bloodline.id },
+                }}
+              >
                 {data.me.race.name}
               </Anchor>
             </Text>
@@ -173,7 +188,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
                 Faction Warfare:{" "}
                 <Anchor
                   component={Link}
-                  href={"/faction/" + data.me.faction.id}
+                  href={{
+                    pathname: "/faction/[id]",
+                    query: { id: data.me.faction.id },
+                  }}
                 >
                   {data.me.faction.name}
                 </Anchor>
@@ -195,7 +213,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
               Current location:{" "}
               <Anchor
                 component={Link}
-                href={"/solarsystem/" + data.me.location.solarSystem.id}
+                href={{
+                  pathname: "/solarsystem/[id]",
+                  query: { id: data.me.location.solarSystem.id },
+                }}
               >
                 {data.me.location.solarSystem.name}
               </Anchor>
@@ -211,7 +232,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
               Station:{" "}
               <Anchor
                 component={Link}
-                href={"/station/" + data.me.location.station.id}
+                href={{
+                  pathname: "/station/[id]",
+                  query: { id: data.me.location.station.id },
+                }}
               >
                 {data.me.location.station.name}
               </Anchor>
@@ -244,7 +268,10 @@ const AuthenticatedPlayerCard = (props: Props) => {
               >
                 <Anchor
                   component={Link}
-                  href={"/corporation/" + corporationMembership.corporation.id}
+                  href={{
+                    pathname: "/corporation/[id]",
+                    query: { id: corporationMembership.corporation.id },
+                  }}
                 >
                   {corporationMembership.corporation.name} since{" "}
                   {moment(corporationMembership.startDate)

@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
-import NavbarLayout from "../../../../eve-graph/web-explorer/layouts/NavbarLayout";
-import { AncestryCardDetailed } from "../../../../eve-graph/web-explorer/components/AncestryCard";
+import { AncestryCardDetailed } from "@/components/AncestryCard";
+import { NavbarLayout } from "@/layouts";
 
 const AncestryPage = () => {
   const router = useRouter();

@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetTypeDetailsQuery } from "../../generated/graphql";
+import { useGetTypeDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import { GraphQLErrorAlert } from "../Alert";
 import Link from "next/link";
@@ -101,7 +101,13 @@ const TypeCardDetailed = ({ typeId }: Props) => {
           </Group>
           <Text>
             Group:{" "}
-            <Anchor component={Link} href={"/group/" + data.type.group.id}>
+            <Anchor
+              component={Link}
+              href={{
+                pathname: "/group/[id]",
+                query: { id: data.type.group.id },
+              }}
+            >
               {data.type.group.name}
             </Anchor>
           </Text>
@@ -129,7 +135,10 @@ const TypeCardDetailed = ({ typeId }: Props) => {
                 Market Group:{" "}
                 <Anchor
                   component={Link}
-                  href={"/marketgroup/" + data.type.marketGroup.id}
+                  href={{
+                    pathname: "/marketgroup/[id]",
+                    query: { id: data.type.marketGroup.id },
+                  }}
                 >
                   {data.type.marketGroup.name}
                 </Anchor>
@@ -174,7 +183,13 @@ const TypeCardDetailed = ({ typeId }: Props) => {
             width={400}
           >
             <Group position="apart">
-              <Anchor component={Link} href={"/attribute/" + attribute.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/attribute/[id]",
+                  query: { id: attribute.id },
+                }}
+              >
                 {attribute.displayName || attribute.name}: {value}{" "}
                 {attribute.unit?.displayName}
               </Anchor>
@@ -199,7 +214,13 @@ const TypeCardDetailed = ({ typeId }: Props) => {
             width={400}
           >
             <Group position="apart">
-              <Anchor component={Link} href={"/effect/" + effect.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/effect/[id]",
+                  query: { id: effect.id },
+                }}
+              >
                 {effect.displayName || effect.name}{" "}
                 {isDefault && <Badge>default</Badge>}
               </Anchor>

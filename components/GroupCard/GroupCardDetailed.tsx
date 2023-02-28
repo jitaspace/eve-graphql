@@ -1,6 +1,6 @@
 import { Anchor, Card, Group, Loader, SimpleGrid, Text } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetGroupDetailsQuery } from "../../generated/graphql";
+import { useGetGroupDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import { GraphQLErrorAlert } from "../Alert";
 import Link from "next/link";
@@ -48,7 +48,13 @@ const GroupCardDetailed = ({ groupId }: Props) => {
         </Group>
         <Text>
           Category:{" "}
-          <Anchor component={Link} href={"/category/" + data.group.category.id}>
+          <Anchor
+            component={Link}
+            href={{
+              pathname: "/category/[id]",
+              query: { id: data.group.category.id },
+            }}
+          >
             {data.group.category.name}
           </Anchor>
         </Text>
@@ -60,7 +66,13 @@ const GroupCardDetailed = ({ groupId }: Props) => {
         <SimpleGrid cols={2}>
           {data.group.types.map(({ id, name }) => (
             <Text key={id}>
-              <Anchor component={Link} href={"/type/" + id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/type/[id]",
+                  query: { id },
+                }}
+              >
                 {name}
               </Anchor>
             </Text>

@@ -1,3 +1,4 @@
+// @ts-expect-error
 import { AllianceApi as GeneratedApi } from "@eve-graph/esi-apollo-datasource";
 
 class AllianceApi extends GeneratedApi {

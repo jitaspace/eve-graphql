@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
-import NavbarLayout from "../../../../eve-graph/web-explorer/layouts/NavbarLayout";
-import { AllianceCardDetailed } from "../../../../eve-graph/web-explorer/components/AllianceCard";
+import { AllianceCardDetailed } from "@/components/AllianceCard";
+import { NavbarLayout } from "@/layouts";
 
 const AlliancePage = () => {
   const router = useRouter();

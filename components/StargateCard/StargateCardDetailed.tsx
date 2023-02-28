@@ -1,6 +1,6 @@
 import { Anchor, Card, Group, Loader, Skeleton, Text } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetStargateDetailsQuery } from "../../generated/graphql";
+import { useGetStargateDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -71,7 +71,7 @@ const StargateCardDetailed = ({ stargateId }: Props) => {
   });
 
   if (loading) return <Loader />;
-  if (error || !data) return <GraphQLErrorAlert error={error} />;
+  if (!data || error) return <GraphQLErrorAlert error={error} />;
 
   return (
     <Card>
@@ -80,20 +80,23 @@ const StargateCardDetailed = ({ stargateId }: Props) => {
           <Group style={{ minWidth: "350px" }}>
             <Group position="apart">
               <Text size="lg" weight={500}>
-                <Skeleton visible={loading}>{data?.stargate.name}</Skeleton>
+                <Skeleton visible={loading}>{data.stargate.name}</Skeleton>
               </Text>
               <Text size="xs" color="dimmed">
-                <Skeleton visible={loading}>{data?.stargate.id}</Skeleton>
+                <Skeleton visible={loading}>{data.stargate.id}</Skeleton>
               </Text>
             </Group>
-            {data?.stargate.solarSystem && (
+            {data.stargate.solarSystem && (
               <Skeleton visible={loading}>
                 Solar System:{" "}
                 <Anchor
                   component={Link}
-                  href={"/solarsystem/" + data?.stargate.solarSystem.id}
+                  href={{
+                    pathname: "/solarsystem/[id]",
+                    query: { id: data.stargate.solarSystem.id },
+                  }}
                 >
-                  {data?.stargate.solarSystem.name}
+                  {data.stargate.solarSystem.name}
                 </Anchor>
               </Skeleton>
             )}
@@ -114,32 +117,43 @@ const StargateCardDetailed = ({ stargateId }: Props) => {
             </Group>
             <Skeleton visible={loading}>
               Type:{" "}
-              <Anchor component={Link} href={"/type/" + data?.stargate.type.id}>
-                {data?.stargate.type.name ?? ""}
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/type/[id]",
+                  query: { id: data.stargate.type.id },
+                }}
+              >
+                {data.stargate.type.name ?? ""}
               </Anchor>
             </Skeleton>
             <Skeleton visible={loading}>
               Destination:{" "}
               <Anchor
                 component={Link}
-                href={"/stargate/" + data?.stargate.destination.id}
+                href={{
+                  pathname: "/stargate/[id]",
+                  query: { id: data.stargate.destination.id },
+                }}
               >
-                {data?.stargate.destination.name ?? ""}
+                {data.stargate.destination.name ?? ""}
               </Anchor>{" "}
               in{" "}
               <Anchor
                 component={Link}
-                href={
-                  "/solarsystem/" + data?.stargate.destination.solarSystem.id
-                }
+                href={{
+                  pathname: "/solarsystem/[id]",
+                  query: { id: data.stargate.destination.solarSystem.id },
+                }}
               >
-                {data?.stargate.destination.solarSystem.name ?? ""}
+                {data.stargate.destination.solarSystem.name ?? ""}
               </Anchor>
             </Skeleton>
           </Group>
           <Group style={{ maxWidth: "128px" }}>
             <Image
-              src={data?.stargate.type.images[0].url ?? ""}
+              src={data.stargate.type.images[0].url ?? ""}
+              alt={data.stargate.type.name ?? ""}
               width={128}
               height={128}
             />

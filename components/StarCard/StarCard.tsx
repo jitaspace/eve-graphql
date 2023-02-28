@@ -1,23 +1,24 @@
-import { createStyles, Modal, Title, UnstyledButton } from '@mantine/core';
-import { useState } from 'react';
-import Image from 'next/image';
-import StarCardDetailed from './StarCardDetailed';
+import { createStyles, Modal, Title, UnstyledButton } from "@mantine/core";
+import { useState } from "react";
+import Image from "next/image";
+import StarCardDetailed from "./StarCardDetailed";
 
 const useStyles = createStyles((theme) => ({
   item: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     borderRadius: theme.radius.xl,
     height: 192,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    transition: 'box-shadow 150ms ease, transform 100ms ease',
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    transition: "box-shadow 150ms ease, transform 100ms ease",
 
-    '&:hover': {
+    "&:hover": {
       boxShadow: `${theme.shadows.md} !important`,
-      transform: 'scale(1.05)',
+      transform: "scale(1.05)",
     },
   },
 }));
@@ -35,7 +36,9 @@ interface Props {
 const StarCard = ({ star: { id, name, type } }: Props) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
-  const [imgSrc, setImgSrc] = useState('https://images.evetech.net/types/' + type.id + '/icon');
+  const [imgSrc, setImgSrc] = useState(
+    "https://images.evetech.net/types/" + type.id + "/icon"
+  );
 
   return (
     <>
@@ -54,12 +57,13 @@ const StarCard = ({ star: { id, name, type } }: Props) => {
       <UnstyledButton className={classes.item} onClick={() => setOpened(true)}>
         <Image
           src={imgSrc}
+          alt={name}
           width={128}
           height={128}
-          style={{ borderRadius: '64px', overflow: 'hidden' }}
+          style={{ borderRadius: "64px", overflow: "hidden" }}
           onError={() => {
-            console.log('ERROR LOADING IMAGE');
-            setImgSrc('/logos/eve_white.png');
+            console.log("ERROR LOADING IMAGE");
+            setImgSrc("/logos/eve_white.png");
           }}
         />
         <Title order={5}>{name}</Title>

@@ -9,7 +9,7 @@ import {
   Timeline,
 } from "@mantine/core";
 import { gql } from "@apollo/client";
-import { useGetCharacterDetailsQuery } from "../../generated/graphql";
+import { useGetCharacterDetailsQuery } from "@/generated/graphql";
 import React from "react";
 import Link from "next/link";
 import { GraphQLErrorAlert } from "../Alert";
@@ -193,8 +193,11 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
             <Text>
               Corporation:{" "}
               <Anchor
-                component
-                href={"/corporation/" + data.character.corporation.id}
+                component={Link}
+                href={{
+                  pathname: "/corporation/[id]",
+                  query: { id: data.character.corporation.id },
+                }}
               >
                 {data.character.corporation.name}
               </Anchor>
@@ -212,7 +215,10 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
                 Alliance:{" "}
                 <Anchor
                   component={Link}
-                  href={"/alliance/" + data.character.alliance.id}
+                  href={{
+                    pathname: "/alliance/[id]",
+                    query: { id: data.character.alliance.id },
+                  }}
                 >
                   {data.character.alliance.name}
                 </Anchor>
@@ -234,7 +240,10 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
               Bloodline:{" "}
               <Anchor
                 component={Link}
-                href={"/bloodline/" + data.character.bloodline.id}
+                href={{
+                  pathname: "/bloodline/[id]",
+                  query: { id: data.character.bloodline.id },
+                }}
               >
                 {data.character.bloodline.name}
               </Anchor>
@@ -246,7 +255,13 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
           <Group position="apart">
             <Text>
               Race:{" "}
-              <Anchor component={Link} href={"/race/" + data.character.race.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/race/[id]",
+                  query: { id: data.character.race.id },
+                }}
+              >
                 {data.character.race.name}
               </Anchor>
             </Text>
@@ -260,7 +275,10 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
                 Faction Warfare:{" "}
                 <Anchor
                   component={Link}
-                  href={"/faction/" + data.character.faction.id}
+                  href={{
+                    pathname: "/faction/[id]",
+                    query: { id: data.character.faction.id },
+                  }}
                 >
                   {data.character.faction.name}
                 </Anchor>
@@ -283,7 +301,10 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
               Location:{" "}
               <Anchor
                 component={Link}
-                href={"/station/" + data.character.location.id}
+                href={{
+                  pathname: "/station/[id]",
+                  query: { id: data.character.location.id },
+                }}
               >
                 {data.character.location.name}
               </Anchor>
@@ -309,14 +330,23 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
             Solar System:{" "}
             <Anchor
               component={Link}
-              href={"/solarsystem/" + data.character.solarSystem.id}
+              href={{
+                pathname: "/solarsystem/[id]",
+                query: { id: data.character.solarSystem.id },
+              }}
             >
               {data.character.solarSystem.name}
             </Anchor>
           </Text>
           <Text size="md" weight={500}>
             Type:{" "}
-            <Anchor component={Link} href={"/type/" + data.character.type.id}>
+            <Anchor
+              component={Link}
+              href={{
+                pathname: "/type/[id]",
+                query: { id: data.character.type.id },
+              }}
+            >
               {data.character.type.name}
             </Anchor>
           </Text>
@@ -334,7 +364,13 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
           Research Skills:{" "}
           {data.character.researchSkills.map((researchSkill) => (
             <Text key={researchSkill.id} size="md" weight={500}>
-              <Anchor component={Link} href={"/type/" + researchSkill.id}>
+              <Anchor
+                component={Link}
+                href={{
+                  pathname: "/type/[id]",
+                  query: { id: researchSkill.id },
+                }}
+              >
                 {researchSkill.name}
               </Anchor>
             </Text>
@@ -363,7 +399,10 @@ const CharacterCardDetailed = ({ characterId }: Props) => {
               >
                 <Anchor
                   component={Link}
-                  href={"/corporation/" + corporationMembership.corporation.id}
+                  href={{
+                    pathname: "/corporation/[id]",
+                    query: { id: corporationMembership.corporation.id },
+                  }}
                 >
                   {corporationMembership.corporation.name} since{" "}
                   {moment(corporationMembership.startDate)
