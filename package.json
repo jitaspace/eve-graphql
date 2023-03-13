@@ -52,7 +52,7 @@
     "apollo-server-plugin-response-cache": "^3.8.1",
     "cookies-next": "^2.1.1",
     "dayjs": "^1.11.7",
-    "embla-carousel-react": "^7.0.9",
+    "embla-carousel-react": "^7.1.0",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.1",
     "graphql": "^16.6.0",
