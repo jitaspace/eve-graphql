@@ -2016,10 +2016,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-bold/-/extension-bold-2.0.0-beta.218.tgz"
   integrity sha512-XKQ9QiXspGLY9LyZVhPTQFfJQEDzrwCigILG+QwM3WAp/hKNDJsUy4GXRl/Rdtx+5mfqGyh+Zlo41xF2WhoKUg==
 
-"@tiptap/extension-bubble-menu@^2.0.0-beta.218":
-  version "2.0.0-beta.218"
-  resolved "https://registry.npmjs.org/@tiptap/extension-bubble-menu/-/extension-bubble-menu-2.0.0-beta.218.tgz"
-  integrity sha512-NXVaRSoweM54AGCJCJWkY3D9CfYlARtC04+7T8EF0Dwz99RcVzDHCXaNJGk+rMH7vGxsJop4RxHEQO/D2pgADw==
+"@tiptap/extension-bubble-menu@^2.0.0-beta.220":
+  version "2.0.0-beta.220"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-bubble-menu/-/extension-bubble-menu-2.0.0-beta.220.tgz#3fea0c846f73a237f562fdce05671ef1fa025943"
+  integrity sha512-wthyec7s0vZlTSEAAZEgoFfx/1Arwg1zxDUrrE+YAost/Yn+w4xQksz/ts5Bx90iOk2qsJ+jzzttLRV17Ku7lA==
   dependencies:
     lodash "^4.17.21"
     tippy.js "^6.3.7"
@@ -2049,10 +2049,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-dropcursor/-/extension-dropcursor-2.0.0-beta.218.tgz"
   integrity sha512-RvYB0koNJs3ETcVnzwda0hhDxCa2hoKW1C3WiRKg1+pYA5oW12NtiNWqViQKkSn1ugQXXzhdxMHGCSr4BczmAA==
 
-"@tiptap/extension-floating-menu@^2.0.0-beta.218":
-  version "2.0.0-beta.218"
-  resolved "https://registry.npmjs.org/@tiptap/extension-floating-menu/-/extension-floating-menu-2.0.0-beta.218.tgz"
-  integrity sha512-OzmucdEJOK7Geq6C3oBZg1m1lBrAAm6SyMPn+0fN83ijixYJAChi7c20A+mrR6aeTlmjASi2CXFkrrVmNV7ZDQ==
+"@tiptap/extension-floating-menu@^2.0.0-beta.220":
+  version "2.0.0-beta.220"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-floating-menu/-/extension-floating-menu-2.0.0-beta.220.tgz#35eb154227533ada738c922be2f8cf18426fe4bf"
+  integrity sha512-+WfcBEedm82ntaVIEQAGz0Om96Rpav7a+4f7e8N4PrLKm6nZ3gBaEkZVQ6vjJ6S/1htiWCv1XosYIwRboPBG0w==
   dependencies:
     tippy.js "^6.3.7"
 
@@ -2118,13 +2118,13 @@
   resolved "https://registry.npmjs.org/@tiptap/extension-text/-/extension-text-2.0.0-beta.218.tgz"
   integrity sha512-Z14dRRIjQwPGJD3+joD3nEs6NcQUORuPXa2BDWsFcAb6R+yPz7j9Wpn4nkcWCw2CIqnMm17ERs+KSSvKvzWY6Q==
 
-"@tiptap/react@^2.0.0-beta.218":
-  version "2.0.0-beta.218"
-  resolved "https://registry.npmjs.org/@tiptap/react/-/react-2.0.0-beta.218.tgz"
-  integrity sha512-DNOltJ0t0zZTuOu4/6a3qLN3D/z6T92o+UfOg6f/pxuID+57lSTWGA7YFrmOmkWS0yvD8KBMNG1ADLEVKWnCjg==
+"@tiptap/react@^2.0.0-beta.220":
+  version "2.0.0-beta.220"
+  resolved "https://registry.yarnpkg.com/@tiptap/react/-/react-2.0.0-beta.220.tgz#c79df680ee2002061078704e4f35b232588a4a20"
+  integrity sha512-AZWaCGjm2FcJWNl1dxRCHOjGYvUV8R39L7tAcnKxHGajOHdFk8JQHc0XbVZhdBi2YgwvwEr7Tw9G2lzi9e6/fg==
   dependencies:
-    "@tiptap/extension-bubble-menu" "^2.0.0-beta.218"
-    "@tiptap/extension-floating-menu" "^2.0.0-beta.218"
+    "@tiptap/extension-bubble-menu" "^2.0.0-beta.220"
+    "@tiptap/extension-floating-menu" "^2.0.0-beta.220"
 
 "@tiptap/starter-kit@^2.0.0-beta.218":
   version "2.0.0-beta.218"
