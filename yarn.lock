@@ -1596,13 +1596,13 @@
   dependencies:
     "@mantine/utils" "5.10.5"
 
-"@mantine/next@^5.10.5":
-  version "5.10.5"
-  resolved "https://registry.npmjs.org/@mantine/next/-/next-5.10.5.tgz"
-  integrity sha512-sFQ4RbRPHzrBfEkSyg+6mb08MqFY4nrNkJh/PCe71U67GGy/djidSgW5++glPxISKQk/Zftay0s6Gm4IlYMO4g==
+"@mantine/next@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@mantine/next/-/next-6.0.9.tgz#f84ea4e3427a0841c02e61fe9a250a9b703261d0"
+  integrity sha512-9bzdEvRYjlkdnSVvPJuYWOi6ujkEoJ2xNDik+oPcdhaatuOTe2amWu0eFwBUPCv4ubveh6j/04Tjc8c1gN9aqg==
   dependencies:
-    "@mantine/ssr" "5.10.5"
-    "@mantine/styles" "5.10.5"
+    "@mantine/ssr" "6.0.9"
+    "@mantine/styles" "6.0.9"
 
 "@mantine/notifications@^5.10.5":
   version "5.10.5"
@@ -1634,18 +1634,26 @@
   dependencies:
     "@mantine/utils" "5.10.5"
 
-"@mantine/ssr@5.10.5":
-  version "5.10.5"
-  resolved "https://registry.npmjs.org/@mantine/ssr/-/ssr-5.10.5.tgz"
-  integrity sha512-sp2ZnDHEaxsF0YNwrqBYTTGX7wL2DaHGOSVeZxnGX1lcOBkv5ksshdGnOU2cM2M8kKZumaDaAxbNiPKOnLsy3A==
+"@mantine/ssr@6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@mantine/ssr/-/ssr-6.0.9.tgz#fdec6926496934588cd5e4f9c6048b7fadf614c8"
+  integrity sha512-4DcdDa3QtMIwybglNHTvTKIUIgs5jG9d3TQQJuP8UhuJQdSa8EpwqWn4RElvJQQCGZehnggTdpWv72GI9jFgPA==
   dependencies:
-    "@mantine/styles" "5.10.5"
+    "@mantine/styles" "6.0.9"
     html-react-parser "1.4.12"
 
 "@mantine/styles@5.10.5":
   version "5.10.5"
   resolved "https://registry.npmjs.org/@mantine/styles/-/styles-5.10.5.tgz"
   integrity sha512-0NXk8c/XGzuTUkZc6KceF2NaTCMEu5mHR4ru0x+ttb9DGnLpHuGWduTHjSfr4hl6eAJgedD0zauO+VAhDzO9zA==
+  dependencies:
+    clsx "1.1.1"
+    csstype "3.0.9"
+
+"@mantine/styles@6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-6.0.9.tgz#9971eefaef2ef4d38a976ca641507732a80263e6"
+  integrity sha512-jTtSicZalxw5fHD4p2c5RJdsb1DlBTKFwMmPWSTt5IgQ3ADucQtQWl2sVtVCpR/b5w9/Ihzgju84bPmOlAWh0g==
   dependencies:
     clsx "1.1.1"
     csstype "3.0.9"
